@@ -18,6 +18,7 @@
     "log:tree": "tree -N -I \"node_modules|.git|.idea\" -a"
   },
   "dependencies": {
+    "antd": "^5.24.4",
     "axios": "^1.7.9",
     "classnames": "^2.5.1",
     "framer-motion": "^11.13.1",

@@ -1,0 +1,26 @@
+.loginWrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  :global {
+    .formWrapper {
+      padding: 100px;
+      border: 1px solid var(--primary-color);
+      transform: translateY(-50%);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      @media (max-width: 768px) {
+        padding: 50px;
+
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+}
