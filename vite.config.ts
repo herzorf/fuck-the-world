@@ -61,14 +61,14 @@ export default ({ command, mode }: ConfigEnv) => {
           },
         },
       },
-      //打包去掉打印信息 保留debugger vite3需要单独安装terser才行
-      // minify: 'terser',
-      // terserOptions: {
-      //   compress: {
-      //     drop_console: true,
-      //     drop_debugger: false,
-      //   },
-      // },
+      // 打包去掉打印信息 保留debugger vite3需要单独安装terser才行
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: false,
+        },
+      },
     },
   })
 }
