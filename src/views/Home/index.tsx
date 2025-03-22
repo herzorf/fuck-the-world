@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Button, Table } from 'antd'
 
 function Home() {
   const dataSource = [
@@ -31,6 +31,12 @@ function Home() {
       title: '住址',
       dataIndex: 'address',
       key: 'address',
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: () => <Button type="primary">操作</Button>,
     },
   ]
   return <Table dataSource={dataSource} columns={columns} />
