@@ -36,18 +36,14 @@ const Login = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item<FieldType>
-            label="密码"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
+          <Form.Item<FieldType> label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
             <Input.Password />
           </Form.Item>
           <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
             <Checkbox>记住我</Checkbox>
           </Form.Item>
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" block htmlType="submit">
               登录
             </Button>
           </Form.Item>
