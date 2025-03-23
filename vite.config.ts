@@ -34,14 +34,6 @@ export default ({ command, mode }: ConfigEnv) => {
     //服务
     server: {
       //自定义代理---解决跨域
-      proxy: {
-        // 选项写法
-        '/api': {
-          target: 'http://xxxxxx.com',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
     },
     css: {
       // css预处理器

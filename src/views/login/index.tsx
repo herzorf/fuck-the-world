@@ -1,6 +1,8 @@
 import type { FormProps } from 'antd'
 import { Button, Checkbox, Form, Input } from 'antd'
 
+import { login } from '@/views/login/index.api.ts'
+
 import style from './index.module.scss'
 
 const Login = () => {
@@ -11,11 +13,9 @@ const Login = () => {
   }
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    console.log('Success:', values)
-  }
-
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo)
+    login(values).then((res) => {
+      console.log(res)
+    })
   }
   return (
     <div className={style.loginWrapper}>
@@ -29,7 +29,6 @@ const Login = () => {
           style={{ minWidth: 600 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item<FieldType> label="账号" name="username" rules={[{ required: true, message: '请输入你的账号' }]}>

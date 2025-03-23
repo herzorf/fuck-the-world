@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import type { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 
@@ -20,6 +21,7 @@ function analysisFilename(contentDisposition: string): string {
 
 class MyAxios {
   private readonly axiosInstance: AxiosInstance
+
   constructor(options: AxiosRequestConfig) {
     this.axiosInstance = axios.create(options)
     this.initInterceptors()
@@ -29,14 +31,11 @@ class MyAxios {
     // 请求拦截  上传数据的加密处理在这里配置
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        //headers的access-token部分在请求拦截中加入
         const token: string | null = localStorage.getItem('token')
         if (token) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           config.headers['authorization'] = `Bearer ${token}`
         }
-        console.log(`本次请求的config信息：`, config)
+        // console.log(`本次请求的config信息：`, config)
         return config
       },
       (error) => {
@@ -45,64 +44,32 @@ class MyAxios {
       },
     )
 
-    //响应拦截  从接口响应的数据在这里处理 例如解密等  时间发生在then catch前
     this.axiosInstance.interceptors.response.use(
-      (response) => {
-        // resBaseInfo 针对接口返回有基本格式的情况下 如上面导入的resBaseInfo基本请求返回体 基本返回体由rsCode rsCause 和 data构成
-        const { data } = response
-        console.log('data', data)
-        if (data.rsCode !== 0) {
-          alert(`${data.rsCause}`)
-          return Promise.reject(data.data) //假设后台的错误信息放在了data中  这里根据情况修改
+      async (response) => {
+        const {
+          data: { code, message: msg, result },
+        } = response
+        if (code !== 200) {
+          message.error(msg)
+          return Promise.reject(result)
         }
-        if (data instanceof Blob) {
-          //兼容一下下方的文件下载处理
+        if (result instanceof Blob) {
           return response
         } else {
-          return data.data //因为下方封装默认泛型默认定义到了response下的data下的resBaseInfo下的data
+          message.success(msg)
+          return result
         }
       },
-      (error: AxiosError) => {
-        console.log('axios响应拦截部分发生错误，错误信息为', error)
-
-        //需要对错误进行提示？
-        //以下Message是ElementUI库的全局提示组件 当然我们可以更改
-        //若ElementUI 需要在头部引入   import { Message } from 'element-ui';
-        /*    if(error?.response){
-              switch (error.response.status){
-                  case 400:
-                      Message.error('请求错误');
-                      break;
-                  case 401:
-                      Message.error('未授权访问');
-                      break;
-                  case 404:
-                      Message.error('资源未找到');
-                      break;
-                  default:
-                      Message.error('其他错误信息');
-              }
-          }*/
-
+      async (error: AxiosError) => {
+        const { message: msg } = error.response?.data as Record<string, string>
+        message.error(msg)
         return Promise.reject(error)
       },
     )
   }
 
-  get<T>(url: string, data?: object): Promise<T> {
-    return this.axiosInstance.get(url, { params: data })
-  }
-
   post<T>(url: string, data?: object, params?: object): Promise<T> {
     return this.axiosInstance.post(url, data, { params })
-  }
-
-  put<T>(url: string, data?: object, params?: object): Promise<T> {
-    return this.axiosInstance.put(url, data, { params })
-  }
-
-  delete<T>(url: string, data?: object): Promise<T> {
-    return this.axiosInstance.delete(url, { params: data })
   }
 
   upload<T>(data: Upload): Promise<T> {
