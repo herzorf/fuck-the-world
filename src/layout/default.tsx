@@ -9,7 +9,7 @@ export default function RootLayout() {
   } = theme.useToken()
   const navigate = useNavigate()
   useEffect(() => {
-    navigate('userManagement')
+    navigate('operateManagement')
   }, [])
   return (
     <div id={'root-layout'}>
@@ -19,15 +19,15 @@ export default function RootLayout() {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['userManagement']}
+            defaultSelectedKeys={['operateManagement']}
             onSelect={({ key }) => {
               navigate(key)
             }}
             items={[
               {
-                key: 'userManagement',
+                key: 'operateManagement',
                 icon: <UserOutlined />,
-                label: '用户管理',
+                label: '操作员管理',
               },
             ]}
           />

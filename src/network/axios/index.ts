@@ -33,7 +33,7 @@ class MyAxios {
       (config) => {
         const token: string | null = localStorage.getItem('token')
         if (token) {
-          config.headers['authorization'] = `Bearer ${token}`
+          config.headers['authorization'] = token
         }
         // console.log(`本次请求的config信息：`, config)
         return config
@@ -56,7 +56,9 @@ class MyAxios {
         if (result instanceof Blob) {
           return response
         } else {
-          message.success(msg)
+          if (msg) {
+            message.success(msg)
+          }
           return result
         }
       },

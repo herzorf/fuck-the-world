@@ -4,7 +4,7 @@ import Home from '@/views/Home'
 
 export const menuRouter: RouteObject[] = [
   {
-    path: 'userManagement',
+    path: 'operateManagement',
     element: <Home />,
   },
 ]
