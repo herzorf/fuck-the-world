@@ -6,7 +6,6 @@ import { axiosBaseOptions } from '@/network/axios/axios-setup'
 import type { AxiosDownload, Upload, UrlDownload } from '@/network/axios/type'
 import { UploadStream } from '@/network/axios/type'
 
-//优先采用RFC 5897  让与url直接通过a标签的下载的结果相同
 function analysisFilename(contentDisposition: string): string {
   let regex = /filename\*=\S+?''(.+?)(;|$)/
   if (regex.test(contentDisposition)) {
@@ -63,8 +62,20 @@ class MyAxios {
         }
       },
       async (error: AxiosError) => {
-        const { message: msg } = error.response?.data as Record<string, string>
+        const { message: msg, code } = error.response?.data as Record<string, string | number>
         message.error(msg)
+        switch (code) {
+          case 200:
+            break
+          case 401:
+            setTimeout(() => {
+              localStorage.removeItem('token')
+              window.location.href = '/login'
+            }, 1000)
+            break
+          default:
+            break
+        }
         return Promise.reject(error)
       },
     )
