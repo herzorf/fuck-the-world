@@ -62,7 +62,10 @@ class MyAxios {
         }
       },
       async (error: AxiosError) => {
-        const { message: msg, code } = error.response?.data as Record<string, string | number>
+        const { message: msg, code } = (error.response?.data as Record<string, string | number>) || {
+          message: '未找到资源',
+          code: 401,
+        }
         message.error(msg)
         switch (code) {
           case 200:
