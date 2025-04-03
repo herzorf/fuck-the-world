@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
 import { Button, Form, Input, Modal, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
@@ -12,8 +12,8 @@ type FieldType = {
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [pageInfo] = useState({
-    page: 1,
+  const [pageInfo, setPageInfo] = useState({
+    pageNo: 1,
     pageSize: 10,
   })
 
@@ -22,21 +22,36 @@ function Home() {
     queryFn: () => queryOperatorList(pageInfo),
     placeholderData: keepPreviousData,
   })
-
+  const createOperatorMutation = useMutation({
+    mutationFn: createOperator,
+    onSuccess: () => {
+      form.resetFields()
+      setIsModalOpen(false)
+      refetch()
+    },
+  })
   const [form] = Form.useForm()
 
   const onFinish = async () => {
     const values = await form.validateFields()
-    await createOperator(values)
-    form.resetFields()
-    setIsModalOpen(false)
-    refetch()
+    createOperatorMutation.mutate(values)
   }
 
   return (
     <>
       <Table
-        dataSource={data as Record<string, string>[]}
+        dataSource={data?.list}
+        pagination={{
+          total: data?.total,
+          pageSize: pageInfo.pageSize,
+          current: pageInfo.pageNo,
+          onChange(page, pageSize) {
+            setPageInfo({
+              pageNo: page,
+              pageSize: pageSize,
+            })
+          },
+        }}
         title={() => (
           <Button type="primary" onClick={() => setIsModalOpen(true)}>
             添加操作员

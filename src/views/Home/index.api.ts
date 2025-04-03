@@ -1,4 +1,5 @@
 import { request } from '@/network/axios'
+import { ResponseList } from '@/types/response.ts'
 
 enum Api {
   queryOperatorList = '/api/operator/queryOperatorList',
@@ -7,7 +8,7 @@ enum Api {
   deleteOperator = '/api/operator/deleteOperator',
 }
 
-export const queryOperatorList = (params: Record<string, unknown> | undefined) => {
+export const queryOperatorList = (params: Record<string, unknown> | undefined): Promise<ResponseList> => {
   return request.post(Api.queryOperatorList, params)
 }
 export const createOperator = (params: Record<string, string>) => {
