@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { Button, Form, Input, Modal, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
-import { getColumn } from '@/views/Home/index.data.tsx'
+import { GetColumn } from '@/views/Home/index.data.tsx'
 
 type FieldType = {
   username?: string
@@ -43,7 +43,7 @@ function Home() {
           </Button>
         )}
         rowKey={(record) => record.id}
-        columns={getColumn(refetch)}
+        columns={GetColumn()}
       />
       <Modal
         centered

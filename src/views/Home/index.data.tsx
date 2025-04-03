@@ -1,8 +1,23 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Popconfirm, Space, TableProps } from 'antd'
 
 import { deleteOperator, updateOperator } from '@/views/Home/index.api.ts'
 
-export const getColumn: (refetch: () => Promise<unknown>) => TableProps['columns'] = (refetch) => {
+export const GetColumn: () => TableProps['columns'] = () => {
+  const queryClient = useQueryClient()
+  const deleteOperatorMutation = useMutation({
+    mutationFn: deleteOperator,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['queryOperatorList'] })
+    },
+  })
+  const updateOperatorMutation = useMutation({
+    mutationFn: updateOperator,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['queryOperatorList'] })
+    },
+  })
+
   return [
     {
       title: '用户id',
@@ -39,11 +54,10 @@ export const getColumn: (refetch: () => Promise<unknown>) => TableProps['columns
           <Space>
             <Popconfirm
               title="是否删除该操作员"
-              onConfirm={async () => {
-                await deleteOperator({
+              onConfirm={() => {
+                deleteOperatorMutation.mutate({
                   id: record.id,
                 })
-                await refetch()
               }}
               okText="确定"
               cancelText="取消"
@@ -54,13 +68,11 @@ export const getColumn: (refetch: () => Promise<unknown>) => TableProps['columns
             </Popconfirm>
             <Popconfirm
               title={record.isActive ? '是否禁用该操作员' : '是否启用该操作员'}
-              onConfirm={async () => {
-                await updateOperator({
+              onConfirm={() => {
+                updateOperatorMutation.mutate({
                   id: record.id,
                   isActive: !record.isActive,
                 })
-                console.log(1)
-                await refetch()
               }}
               okText="确定"
               cancelText="取消"
