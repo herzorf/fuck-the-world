@@ -1,18 +1,17 @@
+import { useQuery } from '@tanstack/react-query'
 import { Button, Form, Input, Modal, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
 import { getColumn } from '@/views/Home/index.data.tsx'
 
 function Home() {
-  const [dataSource, setDataSource] = useState<Record<string, string>[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const fetchOperatorList = async () => {
-    const res = await queryOperatorList({})
-    setDataSource(res as Record<string, string>[])
-  }
-  useEffect(() => {
-    fetchOperatorList()
-  }, [])
+
+  const { data, refetch } = useQuery({
+    queryKey: ['queryOperatorList'],
+    queryFn: ({ meta }) => queryOperatorList(meta),
+  })
+
   const [form] = Form.useForm()
 
   type FieldType = {
@@ -26,20 +25,20 @@ function Home() {
     await createOperator(values)
     form.resetFields()
     setIsModalOpen(false)
-    fetchOperatorList()
+    refetch()
   }
 
   return (
     <>
       <Table
-        dataSource={dataSource}
+        dataSource={data as Record<string, string>[]}
         title={() => (
           <Button type="primary" onClick={() => setIsModalOpen(true)}>
             添加操作员
           </Button>
         )}
         rowKey={(record) => record.id}
-        columns={getColumn(fetchOperatorList)}
+        columns={getColumn(refetch)}
       />
       <Modal
         centered

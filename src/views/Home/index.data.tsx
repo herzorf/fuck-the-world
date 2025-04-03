@@ -2,7 +2,9 @@ import { Button, Popconfirm, Space, TableProps } from 'antd'
 
 import { deleteOperator, updateOperator } from '@/views/Home/index.api.ts'
 
-export const getColumn: (fetchOperatorList: () => void) => TableProps['columns'] = (fetchOperatorList) => {
+export const getColumn: (refetch: (params?: Record<string, unknown>) => Promise<unknown>) => TableProps['columns'] = (
+  refetch,
+) => {
   return [
     {
       title: '用户id',
@@ -43,7 +45,7 @@ export const getColumn: (fetchOperatorList: () => void) => TableProps['columns']
                 await deleteOperator({
                   id: record.id,
                 })
-                await fetchOperatorList()
+                await refetch()
               }}
               okText="确定"
               cancelText="取消"
@@ -59,7 +61,7 @@ export const getColumn: (fetchOperatorList: () => void) => TableProps['columns']
                   id: record.id,
                   isActive: !record.isActive,
                 })
-                await fetchOperatorList()
+                await refetch({ xxx: 1 })
               }}
               okText="确定"
               cancelText="取消"
