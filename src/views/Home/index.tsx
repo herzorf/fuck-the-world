@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
-import { columns } from '@/views/Home/index.data.tsx'
+import { getColumn } from '@/views/Home/index.data.tsx'
 
 function Home() {
   const [dataSource, setDataSource] = useState<Record<string, string>[]>([])
@@ -39,7 +39,7 @@ function Home() {
           </Button>
         )}
         rowKey={(record) => record.id}
-        columns={columns}
+        columns={getColumn(fetchOperatorList)}
       />
       <Modal
         centered

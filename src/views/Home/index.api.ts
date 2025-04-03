@@ -3,6 +3,8 @@ import { request } from '@/network/axios'
 enum Api {
   queryOperatorList = '/api/operator/queryOperatorList',
   createOperator = '/api/operator/createOperator',
+  updateOperator = '/api/operator/updateOperator',
+  deleteOperator = '/api/operator/deleteOperator',
 }
 
 export const queryOperatorList = (params: Record<string, string>) => {
@@ -10,4 +12,11 @@ export const queryOperatorList = (params: Record<string, string>) => {
 }
 export const createOperator = (params: Record<string, string>) => {
   return request.post(Api.createOperator, params)
+}
+export const updateOperator = (params: Record<string, string | boolean>) => {
+  return request.post(Api.updateOperator, params)
+}
+
+export const deleteOperator = (params: Record<string, string | boolean>) => {
+  return request.post(Api.deleteOperator, params)
 }
