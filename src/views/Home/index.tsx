@@ -1,24 +1,29 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { Button, Form, Input, Modal, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
 import { getColumn } from '@/views/Home/index.data.tsx'
 
+type FieldType = {
+  username?: string
+  password?: string
+  isActive?: string
+}
+
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [pageInfo] = useState({
+    page: 1,
+    pageSize: 10,
+  })
 
   const { data, refetch } = useQuery({
-    queryKey: ['queryOperatorList'],
-    queryFn: ({ meta }) => queryOperatorList(meta),
+    queryKey: ['queryOperatorList', pageInfo],
+    queryFn: () => queryOperatorList(pageInfo),
+    placeholderData: keepPreviousData,
   })
 
   const [form] = Form.useForm()
-
-  type FieldType = {
-    username?: string
-    password?: string
-    isActive?: string
-  }
 
   const onFinish = async () => {
     const values = await form.validateFields()
