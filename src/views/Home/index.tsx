@@ -1,5 +1,5 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query'
-import { Button, Form, Input, Modal, Space, Switch, Table } from 'antd'
+import { Button, Empty, Form, Input, Modal, Space, Switch, Table } from 'antd'
 
 import { createOperator, queryOperatorList } from '@/views/Home/index.api.ts'
 import { GetColumn } from '@/views/Home/index.data.tsx'
@@ -90,6 +90,7 @@ function Home() {
             })
           },
         }}
+        locale={{ emptyText: <Empty description="无数据" /> }}
         title={() => (
           <Button type="primary" onClick={() => setIsModalOpen(true)}>
             添加操作员
