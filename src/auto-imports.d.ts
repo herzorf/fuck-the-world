@@ -14,6 +14,7 @@ declare global {
   const Routes: typeof import('react-router-dom')['Routes']
   const createRef: typeof import('react')['createRef']
   const forwardRef: typeof import('react')['forwardRef']
+  const getUserInfo: typeof import('./store/user')['getUserInfo']
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']
   const startTransition: typeof import('react')['startTransition']

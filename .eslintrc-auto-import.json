@@ -38,6 +38,7 @@
     "useState": true,
     "useSyncExternalStore": true,
     "useTransition": true,
-    "useUserStore": true
+    "useUserStore": true,
+    "getUserInfo": true
   }
 }

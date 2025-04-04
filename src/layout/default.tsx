@@ -1,9 +1,23 @@
 import { UserOutlined } from '@ant-design/icons'
+import { useQuery } from '@tanstack/react-query'
 import { Layout, Menu, theme } from 'antd'
+import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+
+import { getUserInfo, useUserStore } from '@/store/user.ts'
 
 const { Header, Sider, Content } = Layout
 export default function RootLayout() {
+  const userStore = useUserStore()
+  const { data } = useQuery({
+    queryKey: ['getUserInfo'],
+    queryFn: getUserInfo,
+    staleTime: 1000 * 60 * 5,
+  })
+  useEffect(() => {
+    userStore.setUserName(data?.username)
+    userStore.setRole(data?.role)
+  }, [data])
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
