@@ -1,5 +1,6 @@
 import type { FormProps } from 'antd'
 import { Button, Checkbox, Form, Input } from 'antd'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import useSetRouteMeta from '@/hooks/useSetRouteMeta.ts'
@@ -20,6 +21,12 @@ const Login = () => {
     jwt: string
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate(-1)
+    }
+  }, [])
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     login(values).then((res) => {
       const { jwt } = res as LoginResponse
