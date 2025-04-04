@@ -30,11 +30,6 @@ export const GetColumn: () => TableProps['columns'] = () => {
       key: 'username',
     },
     {
-      title: '角色',
-      dataIndex: 'role',
-      key: 'role',
-    },
-    {
       title: '是否启用',
       dataIndex: 'isActive',
       key: 'isActive',
