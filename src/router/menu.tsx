@@ -6,6 +6,7 @@ import Home from '@/views/Home'
 export type MenuRoute = {
   meta?: {
     title: string
+    key: string
   }
 } & RouteObject
 export const menuRouter: MenuRoute[] = [
@@ -14,6 +15,7 @@ export const menuRouter: MenuRoute[] = [
     element: <Home />,
     meta: {
       title: RouteTitle.operateManagement,
+      key: RouteEnum.operateManagement,
     },
   },
 ]

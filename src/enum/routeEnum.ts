@@ -1,6 +1,6 @@
 export enum RouteEnum {
-  operateManagement = '/operateManagement',
-  login = '/login',
+  operateManagement = 'operateManagement',
+  login = 'login',
 }
 
 export enum RouteTitle {

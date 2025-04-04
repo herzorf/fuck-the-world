@@ -1,6 +1,6 @@
 import { DownOutlined, UserOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
-import { Button, Dropdown, Layout, Menu, MenuProps, theme } from 'antd'
+import { Button, Dropdown, Layout, Menu, MenuProps, Modal, theme } from 'antd'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
@@ -27,13 +27,25 @@ export default function RootLayout() {
   useEffect(() => {
     navigate('operateManagement')
   }, [])
+  const handleLogout = () => {
+    Modal.warning({
+      title: '确认退出登录吗？',
+      centered: true,
+      okText: '确认',
+      cancelText: '取消',
+      onOk: () => {
+        localStorage.removeItem('token')
+        navigate('/login')
+      },
+    })
+  }
   const items: MenuProps['items'] = [
     {
       key: '1',
       label: (
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-          1st menu item
-        </a>
+        <Button type="link" onClick={handleLogout}>
+          退出登录
+        </Button>
       ),
     },
   ]
@@ -60,7 +72,7 @@ export default function RootLayout() {
         </Sider>
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }}>
-            <header>
+            <header className={'flex justify-end items-center pr-6'}>
               <div className="userOptions">
                 当前登录用户：
                 <Dropdown menu={{ items }} placement="bottomLeft">

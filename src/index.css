@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
+@tailwind base;
+
 :root {
     --primary-color: #2C3930; /* 主题主色 */
     --secondary-color: #3F4F44; /* 辅助色 */
 
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@layer base {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 }
 
 #root {
@@ -19,3 +23,4 @@
 
 #root-layout {
 }
+
