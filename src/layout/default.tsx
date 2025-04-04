@@ -4,6 +4,7 @@ import { Button, Dropdown, Layout, Menu, MenuProps, Modal, theme } from 'antd'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
+import { RouteEnum } from '@/enum/routeEnum.ts'
 import useSetRouteMeta from '@/hooks/useSetRouteMeta.ts'
 import { getUserInfo, useUserStore } from '@/store/user.ts'
 
@@ -25,7 +26,7 @@ export default function RootLayout() {
   } = theme.useToken()
   const navigate = useNavigate()
   useEffect(() => {
-    navigate('operateManagement')
+    navigate(RouteEnum.operateManagement)
   }, [])
   const handleLogout = () => {
     Modal.warning({
@@ -35,7 +36,7 @@ export default function RootLayout() {
       cancelText: '取消',
       onOk: () => {
         localStorage.removeItem('token')
-        navigate('/login')
+        navigate(RouteEnum.login)
       },
     })
   }
@@ -57,13 +58,13 @@ export default function RootLayout() {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['operateManagement']}
+            defaultSelectedKeys={[RouteEnum.operateManagement]}
             onSelect={({ key }) => {
               navigate(key)
             }}
             items={[
               {
-                key: 'operateManagement',
+                key: RouteEnum.operateManagement,
                 icon: <UserOutlined />,
                 label: '操作员管理',
               },
