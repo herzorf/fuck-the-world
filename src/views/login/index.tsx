@@ -2,11 +2,13 @@ import type { FormProps } from 'antd'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
+import useSetRouteMeta from '@/hooks/useSetRouteMeta.ts'
 import { login } from '@/views/login/index.api.ts'
 
 import style from './index.module.scss'
 
 const Login = () => {
+  useSetRouteMeta()
   type FieldType = {
     username?: string
     password?: string

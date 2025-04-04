@@ -4,10 +4,12 @@ import { Layout, Menu, theme } from 'antd'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
+import useSetRouteMeta from '@/hooks/useSetRouteMeta.ts'
 import { getUserInfo, useUserStore } from '@/store/user.ts'
 
 const { Header, Sider, Content } = Layout
 export default function RootLayout() {
+  useSetRouteMeta()
   const userStore = useUserStore()
   const { data } = useQuery({
     queryKey: ['getUserInfo'],
