@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -21,6 +22,7 @@ export default ({ command, mode }: ConfigEnv) => {
           filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
         },
       }),
+      tailwindcss(),
     ],
     //项目部署的基础路径,
     base: currentEnv.VITE_PUBLIC_PATH,

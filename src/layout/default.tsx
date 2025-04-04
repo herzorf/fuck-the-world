@@ -1,6 +1,6 @@
-import { UserOutlined } from '@ant-design/icons'
+import { DownOutlined, UserOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
-import { Layout, Menu, theme } from 'antd'
+import { Button, Dropdown, Layout, Menu, MenuProps, theme } from 'antd'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
@@ -27,6 +27,16 @@ export default function RootLayout() {
   useEffect(() => {
     navigate('operateManagement')
   }, [])
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+          1st menu item
+        </a>
+      ),
+    },
+  ]
   return (
     <div id={'root-layout'}>
       <Layout style={{ minHeight: '100vh' }}>
@@ -49,7 +59,19 @@ export default function RootLayout() {
           />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}></Header>
+          <Header style={{ padding: 0, background: colorBgContainer }}>
+            <header>
+              <div className="userOptions">
+                当前登录用户：
+                <Dropdown menu={{ items }} placement="bottomLeft">
+                  <Button color="default" variant="text">
+                    {userStore.username}
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </div>
+            </header>
+          </Header>
           <Content
             style={{
               margin: '24px 16px',
